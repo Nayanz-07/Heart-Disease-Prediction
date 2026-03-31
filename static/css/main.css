@@ -1,0 +1,72 @@
+/* heart_disease_project/static/css/main.css
+   Global overrides & utility classes                      */
+
+/* Bootstrap form overrides for dark theme */
+.form-control,
+.form-select {
+  background-color: #262626 !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: #f0f0f0 !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #262626 !important;
+  border-color: #e63946 !important;
+  box-shadow: 0 0 0 3px rgba(230,57,70,0.2) !important;
+  color: #f0f0f0 !important;
+}
+
+.form-select option {
+  background-color: #262626;
+  color: #f0f0f0;
+}
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Animation utility */
+.fade-in {
+  animation: fadeIn .4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive table scroll ─── */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Floating action button (mobile) ─── */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e63946;
+  color: white;
+  border: none;
+  font-size: 24px;
+  box-shadow: 0 4px 20px rgba(230,57,70,0.4);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 800;
+  text-decoration: none;
+  transition: transform .2s;
+}
+.fab:hover { transform: scale(1.1); }
+
+@media (max-width: 768px) {
+  .fab { display: flex; }
+  .hide-mobile { display: none !important; }
+}
+
+/* ─── Custom scrollbar ─── */
+* { scrollbar-width: thin; scrollbar-color: #262626 #161616; }
