@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Prediction History – HeartGuard AI{% endblock %}
+{% block topbar_title %}My Prediction History{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+    <div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin:0;">All Predictions</h2>
+      <p style="color:var(--text-muted);font-size:14px;margin:4px 0 0;">{{ records|length }} total assessments</p>
+    </div>
+    <a href="{% url 'prediction:home' %}#prediction-section" class="btn-red" style="text-decoration:none;padding:10px 20px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;">
+      + New Prediction
+    </a>
+  </div>
+
+  {% if records %}
+  <div class="card-dark">
+    <div class="card-body-custom" style="padding:0;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+          <thead>
+  <tr style="border-bottom:1px solid var(--border);">
+    <th style="padding:14px 18px;">Date</th>
+    <th style="padding:14px 18px;">Age</th>
+    <th style="padding:14px 18px;">Gender</th>
+    <th style="padding:14px 18px;">BP</th>
+    <th style="padding:14px 18px;">Cholesterol</th>
+    <th style="padding:14px 18px;">Max HR</th>
+    <th style="padding:14px 18px;">Oldpeak</th>
+    <th style="padding:14px 18px;">Result</th>
+    <th style="padding:14px 18px;">Probability</th>
+  </tr>
+</thead>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rec in records %}
+          <tr style="border-bottom:1px solid var(--border);transition:background .15s;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+            <td style="padding:13px 18px;font-size:13px;color:var(--text-muted);white-space:nowrap;">{{ rec.created_at|date:"d M Y, H:i" }}</td>
+            <td style="padding:13px 18px;font-size:14px;">{{ rec.age }}</td>
+            <td style="padding:13px 18px;font-size:14px;">{% if rec.sex == 1 %}Male{% else %}Female{% endif %}</td>
+            <td style="padding:13px 18px;font-size:14px;">{{ rec.trestbps }}&nbsp;<span style="font-size:11px;color:var(--text-muted);">mmHg</span></td>
+            <td style="padding:13px 18px;font-size:14px;">{{ rec.chol }}&nbsp;<span style="font-size:11px;color:var(--text-muted);">mg/dl</span></td>
+            <td style="padding:13px 18px;font-size:14px;">{{ rec.thalach }}&nbsp;<span style="font-size:11px;color:var(--text-muted);">bpm</span></td>
+            <td style="padding:13px 18px;font-size:14px;">{{ rec.oldpeak }}</td>
+            <td style="padding:13px 18px;">
+              {% if rec.prediction == 1 %}
+              <span style="background:var(--red-glow);color:var(--red);border:1px solid rgba(230,57,70,.3);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;white-space:nowrap;">⚠ Heart Disease</span>
+              {% else %}
+              <span style="background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.3);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;white-space:nowrap;">✓ No Disease</span>
+              {% endif %}
+            </td>
+            <td style="padding:13px 18px;font-size:14px;font-weight:600;color:{% if rec.probability > 0.5 %}var(--red){% else %}#2ecc71{% endif %};">
+              {{ rec.probability|floatformat:1 }}%
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div style="text-align:center;padding:80px 40px;">
+    <div style="font-size:64px;margin-bottom:20px;">📋</div>
+    <h3 style="font-family:'Syne',sans-serif;margin-bottom:10px;">No predictions yet</h3>
+    <p style="color:var(--text-muted);margin-bottom:24px;">Run your first AI heart disease analysis to see results here.</p>
+    <a href="{% url 'prediction:home' %}#prediction-section" class="btn-red" style="text-decoration:none;padding:12px 28px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;">
+      Start Prediction
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
